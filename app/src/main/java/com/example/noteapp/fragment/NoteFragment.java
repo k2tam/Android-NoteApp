@@ -1,0 +1,220 @@
+package com.example.noteapp.fragment;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
+
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.SearchView;
+import android.widget.Toast;
+
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import androidx.fragment.app.Fragment;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.noteapp.InputNote;
+import com.example.noteapp.MainActivity;
+import com.example.noteapp.Note;
+import com.example.noteapp.NoteAdapter;
+import com.example.noteapp.R;
+import com.example.noteapp.UpdateNoteActivity;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+
+import java.util.ArrayList;
+
+public class NoteFragment extends Fragment {
+    private NoteAdapter noteAdapter;
+    private RecyclerView recyclerView;
+    public static ArrayList<Note> noteList;
+    public FloatingActionButton mFloatingAddNote;
+    private GridLayoutManager gridLayoutManager;
+    FirebaseFirestore fStore;
+    CollectionReference collectionReference ;
+    private String userID ;
+    private View mView;
+    private EditText noteSearch;
+    private FirestoreRecyclerOptions<Note> notes;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        recyclerView = view.findViewById(R.id.recyclerView);
+
+        if(gridLayoutManager == null){
+            gridLayoutManager = new GridLayoutManager(view.getContext(),2);
+            recyclerView.setLayoutManager(gridLayoutManager);
+        }
+
+        MainActivity activity = (MainActivity) getActivity();
+
+
+        activity.mButtonDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(gridLayoutManager.getSpanCount() == 2){
+                    gridLayoutManager.setSpanCount(1);
+                }else{
+                    gridLayoutManager.setSpanCount(2);
+                }
+            }
+        });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mView =  inflater.inflate(R.layout.fragment_note, container, false);
+
+        getView();
+        initUI();
+
+        setUpRecyclerView();
+        mFloatingAddNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkNoteNum();
+
+            }
+        });
+
+
+        noteAdapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Note note = documentSnapshot.toObject(Note.class);
+                String id = documentSnapshot.getId();
+                Log.d("test",id);
+
+                Intent intent = new Intent(getContext(), UpdateNoteActivity.class);
+                intent.putExtra("noteClickedID",id);
+                startActivity(intent);
+
+            }
+        });
+
+        noteSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+                Log.d("s",s.toString());
+            }
+        });
+
+        return mView;
+    }
+
+    private void filter(String text) {
+//        Query find all note where title == text
+        Query query = collectionReference.orderBy("title").startAt(text).endAt(text+"\uf8ff");
+
+        FirestoreRecyclerOptions<Note> filteredNotes = new FirestoreRecyclerOptions.Builder<Note>().
+                setQuery(query, Note.class)
+                .build();
+
+        noteAdapter = new NoteAdapter(filteredNotes);
+        noteAdapter.startListening();
+        recyclerView.setAdapter(noteAdapter);
+
+    }
+
+    private void setUpRecyclerView() {
+        Query query = collectionReference.orderBy("priority",Query.Direction.DESCENDING);
+
+        notes = new FirestoreRecyclerOptions.Builder<Note>()
+                .setQuery(query, Note.class)
+                .build();
+
+        noteAdapter = new NoteAdapter(notes);
+        recyclerView.setAdapter(noteAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        noteAdapter.startListening();
+        noteAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        noteAdapter.stopListening();
+    }
+
+    private void initUI() {
+
+        recyclerView = mView.findViewById(R.id.recyclerView);
+        mFloatingAddNote = mView.findViewById(R.id.floatingAddNote);
+        fStore = FirebaseFirestore.getInstance();
+        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        collectionReference = fStore.collection("users").document(userID).collection("notes");
+        noteSearch = getActivity().findViewById(R.id.noteSearch);
+
+
+        noteList = new ArrayList<>();
+
+        recyclerView.setAdapter(noteAdapter);
+    }
+
+    private void checkNoteNum() {
+        fStore.collection("users").document(userID).collection("notes").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int noteNum = task.getResult().size();
+                if (task.isSuccessful()) {
+                    if (!FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
+                        if (noteNum == 5) {
+                            Toast.makeText(getContext(), "Verify your account to add more note", Toast.LENGTH_LONG).show();
+                        }else if(noteNum < 5){
+                            startActivity(new Intent(getActivity(), InputNote.class));
+                        }
+                    }else{
+                        startActivity(new Intent(getActivity(), InputNote.class));
+                    }
+                } else {
+                    Log.d("error", "checkNoteNum failed");
+                }
+            }
+        });
+    }
+}
+
+
+
+
+

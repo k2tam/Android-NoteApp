@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">One Note</string>
+
+    <string name="nav_home">Notes</string>
+    <string name="nav_trash">Trash</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_feedBack">Feedback</string>
+    <string name="nav_help">Help</string>
+
+    <string name="nav_drawer_open">Open nav</string>
+    <string name="nav_drawer_close">Close nav</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

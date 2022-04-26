@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/NoteApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.316" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_advance_list_view.xml" value="0.3351449275362319" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_change_password.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_login.xml" value="0.3351449275362319" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_reset_check_mail.xml" value="0.3351449275362319" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/NoteApp/app/src/main/res/layout/activity_reset_password.xml" value="0.33" />
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/NoteApp/app/src/main/res/menu/profile_popup.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver17.4/app/src/main/res/layout/activity_input_note.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver18.4/app/src/main/res/layout/note_grid.xml" value="0.3484375" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver18.4_REC/app/src/main/res/layout/activity_input_note.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver18.4_REC/app/src/main/res/layout/activity_update_note.xml" value="0.1" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver18.4_REC/app/src/main/res/layout/note_grid.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_add_note.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_baseline_format_list_bulleted_24.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_feedback.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_grid.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_help.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_list.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_note.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_pin.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_setting.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/drawable/ic_share.xml" value="0.3635" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/activity_header_nav_drawer.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/activity_input_note.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/activity_login.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/activity_reset_check_mail.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/activity_update_note.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/activity_verify_email.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/fragment_feedback.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/fragment_note.xml" value="0.21204188481675393" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/layout_header_nav.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/layout/note_grid.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/menu/menu_nav.xml" value="0.18697916666666667" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/menu/note_options.xml" value="0.18697916666666667" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/menu/profile_popup.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_input_note.xml" value="0.49382716049382713" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/dialog_lock_note.xml" value="0.2463768115942029" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/fragment_note.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/note_grid.xml" value="0.2463768115942029" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/menu/menu_nav.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/menu/note_actions.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.1/app/src/main/res/layout/activity_main.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.1/app/src/main/res/layout/fragment_note.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.1/app/src/main/res/layout/fragment_note_frag_list.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.1/app/src/main/res/layout/note_grid.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.1/app/src/main/res/menu/menu_nav.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.1/app/src/main/res/menu/profile_popup.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/drawable/ic_note.xml" value="0.3575" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/activity_input_note.xml" value="0.25" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/activity_login.xml" value="0.1762917933130699" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/activity_main.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/activity_register.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/activity_splash.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/fragment_frag_note_grid.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/fragment_help.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/fragment_note.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/fragment_note_frag_list.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/note_grid.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/layout/note_list.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.2/app/src/main/res/menu/menu_nav.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.339" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/drawable/nav_note.xml" value="0.339" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/activity_change_password.xml" value="0.3179347826086957" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/activity_main.xml" value="0.3179347826086957" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/activity_verify_email.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/fragment_feedback.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/fragment_help.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/fragment_home.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/fragment_note.xml" value="0.286231884057971" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/fragment_settings.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/fragment_trash.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/layout_header_nav.xml" value="0.3179347826086957" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/note_grid.xml" value="0.3484375" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/layout/note_list.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/menu/menu_nav.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/NoteApp_ver18.3/app/src/main/res/menu/profile_popup.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1935" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/drawable/ic_grid.xml" value="0.34" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1935" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/drawable/ic_note.xml" value="0.1935" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/drawable/ic_setting.xml" value="0.1935" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/drawable/icon_grid.xml" value="0.34" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/drawable/selector.xml" value="0.34" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/layout/activity_main.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/layout/fragment_note.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/layout/layout_header_nav.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/layout/note_grid.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/OneDrive/BackUpAS/OneNote_ver8.4 - Copy/app/src/main/res/layout/note_list.xml" value="0.3625" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
