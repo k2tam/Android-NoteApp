@@ -12,8 +12,7 @@
     <color name="note_title">#FF000000</color>
     <color name="note_content">#9C9C9C</color>
 
-
-    <!-- Icon color    -->
+       <!-- Icon color    -->
     <color name="icon_color">#FF000000</color>
 
 </resources>

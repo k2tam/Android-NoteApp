@@ -45,32 +45,56 @@
         android:layout_weight="16"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/edtTitle"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:padding="5dp"
-            android:textColor="@color/note_title"
-            android:hint="Title"
-            android:background="@null"
-            android:layout_marginTop="20dp"
-            android:textSize="20sp"
-            android:inputType="textPersonName" />
+            android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/edtContent"
-            android:layout_width="match_parent"
-            android:background="@null"
-            android:layout_height="613dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="Note"
-            android:inputType="textMultiLine"
-            android:textColor="@color/note_content"
-            android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- things to scroll -->
+
+                <ImageView
+                    android:padding="0dp"
+                    android:layout_margin="0dp"
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/edtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:padding="5dp"
+                    android:textColor="@color/note_title"
+                    android:hint="Title"
+                    android:background="@null"
+                    android:layout_marginTop="20dp"
+                    android:textSize="@dimen/note_title"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/edtContent"
+                    android:layout_width="match_parent"
+                    android:background="@null"
+                    android:layout_height="613dp"
+                    android:padding="5dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="Note"
+                    android:inputType="textMultiLine"
+                    android:textColor="@color/note_content"
+                    android:textSize="@dimen/note_content" />
+
+            </LinearLayout>
+        </ScrollView>
+
+
     </LinearLayout>
 
     <LinearLayout

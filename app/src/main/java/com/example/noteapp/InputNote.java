@@ -6,53 +6,64 @@ import static com.example.noteapp.R.drawable.ic_unlock;
 
 import androidx.annotation.NonNull;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
-import android.media.MediaPlayer;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
 
-import com.google.android.gms.tasks.OnCompleteListener;
-
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
+import com.squareup.picasso.Picasso;
 
 
-import java.security.Permission;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class InputNote extends AppCompatActivity {
+    private static final int PICK_IMAGE_REQUEST = 1;
     private EditText mTitle, mContent;
     private ImageButton mAddNote, mPinNote, mInputLockNote, mMediaMenu;
     private String userID;
@@ -60,6 +71,11 @@ public class InputNote extends AppCompatActivity {
     private static int mPriority = 0;
     private static boolean mLock;
     private String mPassword;
+    private Uri mImageUri;
+    private ImageView mImageView;
+    static FirebaseStorage fStorage = FirebaseStorage.getInstance();
+    static StorageReference fStorageRef = fStorage.getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +94,10 @@ public class InputNote extends AppCompatActivity {
         mPinNote = findViewById(R.id.addNote_pin);
         mMediaMenu = findViewById(R.id.inputAddMedia);
         mInputLockNote = findViewById(R.id.addNote_lock);
+        mImageView = findViewById(R.id.imageView);
         fStore = FirebaseFirestore.getInstance();
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        fStorageRef = fStorage.getReference();
         mLock = false;
         mPassword = "";
     }
@@ -125,11 +143,11 @@ public class InputNote extends AppCompatActivity {
     }
 
 
-    private void requestPermission(String permission){
+    private void requestPermission(){
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                openImagePicker();
             }
 
             @Override
@@ -138,23 +156,34 @@ public class InputNote extends AppCompatActivity {
             }
         };
 
-        if(permission.equals("Camera")){
-            TedPermission.create()
-                    .setPermissionListener(permissionlistener)
-                    .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                    .setPermissions(Manifest.permission.CAMERA)
-                    .check();
-        }
 
-        if(permission.equals("Image")){
-            TedPermission.create()
-                    .setPermissionListener(permissionlistener)
-                    .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                    .setPermissions(Manifest.permission.CAMERA)
-                    .check();
-        }
+        TedPermission.create()
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .check();
+
     }
 
+
+    private void openImagePicker() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+            mImageUri = data.getData();
+
+            Picasso.get().load(mImageUri).into(mImageView);
+
+        }
+    }
 
     private void lockNote() {
         if(mLock == false){
@@ -262,6 +291,22 @@ public class InputNote extends AppCompatActivity {
         DocumentReference documentReference = fStore.collection("users").document(userID).collection("notes").document(noteID);
         Map<String, Object> noteAdd = note.toMap();
         documentReference.set(noteAdd);
+
+        if(mImageUri != null){
+            uploadToFStorage(noteID);
+        }
+    }
+
+    private String getImgExtension(Uri uri){
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    private void uploadToFStorage(String noteID) {
+
+        StorageReference imageRef = fStorageRef.child("images").child(userID).child(noteID).child(System.currentTimeMillis() + "." + getImgExtension(mImageUri));
+        imageRef.putFile(mImageUri);
     }
 
     private void notePin() {
@@ -282,10 +327,8 @@ public class InputNote extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.media_camera:
-                        requestPermission("Camera");
-                        break;
                     case R.id.media_image:
+                        requestPermission();
                         break;
                 }
 
