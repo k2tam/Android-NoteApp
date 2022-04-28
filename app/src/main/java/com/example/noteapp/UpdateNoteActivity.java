@@ -66,6 +66,7 @@ public class UpdateNoteActivity extends AppCompatActivity   {
         txtUdtTitle = findViewById(R.id.updateEdtTitle);
         txtUdtContent = findViewById(R.id.updateEdtContent);
 
+
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         fStore = FirebaseFirestore.getInstance();
         noteDocReference = fStore.collection("users").document(userID).collection("notes").document(getNoteClickedID());

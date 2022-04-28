@@ -41,15 +41,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="16"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/edtTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:ems="10"
+            android:padding="5dp"
+            android:textColor="@color/note_title"
             android:hint="Title"
+            android:background="@null"
             android:layout_marginTop="20dp"
             android:textSize="20sp"
             android:inputType="textPersonName" />
@@ -57,6 +61,7 @@
         <EditText
             android:id="@+id/edtContent"
             android:layout_width="match_parent"
+            android:background="@null"
             android:layout_height="613dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
@@ -64,12 +69,25 @@
             android:gravity="start|top"
             android:hint="Note"
             android:inputType="textMultiLine"
-            android:textColor="#9C9C9C"
+            android:textColor="@color/note_content"
             android:textSize="15sp" />
-
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="5dp">
 
+        <ImageButton
+            android:id="@+id/inputAddMedia"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/ic_add"/>
+    </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>
 
 

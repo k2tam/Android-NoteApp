@@ -52,7 +52,7 @@
             android:ems="10"
             android:hint="Title"
             android:padding="5dp"
-            android:textColor="@color/black"
+            android:textColor="@color/note_title"
             android:layout_marginTop="20dp"
             android:textSize="20sp"
             android:inputType="textPersonName" />
@@ -69,7 +69,7 @@
             android:gravity="start|top"
             android:hint="Note"
             android:inputType="textMultiLine"
-            android:textColor="#9C9C9C"
+            android:textColor="@color/note_content"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -86,7 +86,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/ic_back"/>
+            android:background="@drawable/ic_add"/>
 
         <View
             android:layout_width="0dp"

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -16,12 +17,15 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 
@@ -36,17 +40,21 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.normal.TedPermission;
 
 
+import java.security.Permission;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class InputNote extends AppCompatActivity {
     private EditText mTitle, mContent;
-    private ImageButton mAddNote, mPinNote, mInputLockNote;
+    private ImageButton mAddNote, mPinNote, mInputLockNote, mMediaMenu;
     private String userID;
     private FirebaseFirestore fStore;
     private static int mPriority = 0;
@@ -63,7 +71,27 @@ public class InputNote extends AppCompatActivity {
 
     }
 
+    private void initUI() {
+        mTitle = findViewById(R.id.edtTitle);
+        mContent = findViewById(R.id.edtContent);
+        mAddNote = findViewById(R.id.addNote_save);
+        mPinNote = findViewById(R.id.addNote_pin);
+        mMediaMenu = findViewById(R.id.inputAddMedia);
+        mInputLockNote = findViewById(R.id.addNote_lock);
+        fStore = FirebaseFirestore.getInstance();
+        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mLock = false;
+        mPassword = "";
+    }
+
     private void initListener() {
+        mMediaMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMediaMenu();
+            }
+        });
+
         mAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +123,38 @@ public class InputNote extends AppCompatActivity {
             }
         });
     }
+
+
+    private void requestPermission(String permission){
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(getApplicationContext(), "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        if(permission.equals("Camera")){
+            TedPermission.create()
+                    .setPermissionListener(permissionlistener)
+                    .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                    .setPermissions(Manifest.permission.CAMERA)
+                    .check();
+        }
+
+        if(permission.equals("Image")){
+            TedPermission.create()
+                    .setPermissionListener(permissionlistener)
+                    .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                    .setPermissions(Manifest.permission.CAMERA)
+                    .check();
+        }
+    }
+
 
     private void lockNote() {
         if(mLock == false){
@@ -214,17 +274,26 @@ public class InputNote extends AppCompatActivity {
         }
     }
 
-    private void initUI() {
-        mTitle = findViewById(R.id.edtTitle);
-        mContent = findViewById(R.id.edtContent);
-        mAddNote = findViewById(R.id.addNote_save);
-        mPinNote = findViewById(R.id.addNote_pin);
-        mInputLockNote = findViewById(R.id.addNote_lock);
-        fStore = FirebaseFirestore.getInstance();
-        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mLock = false;
-        mPassword = "";
+    private void showMediaMenu(){
+        PopupMenu mediaMenu = new PopupMenu(getApplicationContext(), mMediaMenu);
+        mediaMenu.getMenuInflater().inflate(R.menu.note_media, mediaMenu.getMenu());
+        mediaMenu.setForceShowIcon(true);
+        mediaMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.media_camera:
+                        requestPermission("Camera");
+                        break;
+                    case R.id.media_image:
+                        break;
+                }
 
+                return false;
+            }
+
+        });
+        mediaMenu.show();
     }
 
     private String createNoteID(){
