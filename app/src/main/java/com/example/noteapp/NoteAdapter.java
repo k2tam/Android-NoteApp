@@ -66,15 +66,19 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
 
         if(model.getPriority() == 1){
             holder.icPin.setVisibility(View.VISIBLE);
+        }else{
+            holder.icPin.setVisibility(View.GONE);
         }
 
+
         if(model.getLock() == true){
+            holder.content.setText("Preview content is hidden due to note is locked");
             holder.icLock.setVisibility(View.VISIBLE);
+        }else{
+            holder.icLock.setVisibility(View.GONE);
         }
 
     }
-
-
 
     @NonNull
     @Override

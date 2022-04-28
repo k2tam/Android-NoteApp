@@ -1,5 +1,6 @@
 package com.example.noteapp.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -59,6 +63,7 @@ public class NoteFragment extends Fragment {
     private View mView;
     private EditText noteSearch;
     private FirestoreRecyclerOptions<Note> notes;
+    private Intent intentToUdtNote;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -108,12 +113,13 @@ public class NoteFragment extends Fragment {
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Note note = documentSnapshot.toObject(Note.class);
                 String id = documentSnapshot.getId();
-                Log.d("test",id);
 
-                Intent intent = new Intent(getContext(), UpdateNoteActivity.class);
-                intent.putExtra("noteClickedID",id);
-                startActivity(intent);
-
+                intentToUdtNote.putExtra("noteClickedID",id);
+                if(note.getLock() == true){
+                    DialogLockNote(note);
+                }else{
+                    startActivity(intentToUdtNote);
+                }
             }
         });
 
@@ -131,11 +137,63 @@ public class NoteFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 filter(s.toString());
-                Log.d("s",s.toString());
             }
         });
 
         return mView;
+    }
+
+    private void DialogLockNote(Note note) {
+        Dialog dialogLockNote = new Dialog(this.getContext());
+        dialogLockNote.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogLockNote.setContentView(R.layout.dialog_lock_note);
+        dialogLockNote.setCanceledOnTouchOutside(true);
+        dialogLockNote.show();
+
+        Window window = dialogLockNote.getWindow();
+        if(window == null){
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        Button diaLockNotePositiveBtn = dialogLockNote.findViewById(R.id.btnLockNotePositive);
+        Button diaLockNoteNegativeBtn = dialogLockNote.findViewById(R.id.btnLockNoteNegative);
+
+        diaLockNotePositiveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText diaLockNotePass = dialogLockNote.findViewById(R.id.edtLockNotePass);
+
+                String diaNotePass = diaLockNotePass.getText().toString().trim();
+
+                if(diaNotePass.isEmpty()){
+                    diaLockNotePass.setError("Note password is empty");
+                    return;
+                }
+                if(!diaNotePass.equals(note.getPassword())){
+                    diaLockNotePass.setError("Note password is invalid");
+                    return;
+                }
+
+                if(diaNotePass.equals(note.getPassword())){
+                    dialogLockNote.dismiss();
+                    startActivity(intentToUdtNote);
+                }
+
+            }
+        });
+
+        diaLockNoteNegativeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogLockNote.dismiss();
+            }
+        });
+
+
+
+
     }
 
     private void filter(String text) {
@@ -185,6 +243,7 @@ public class NoteFragment extends Fragment {
         collectionReference = fStore.collection("users").document(userID).collection("notes");
         noteSearch = getActivity().findViewById(R.id.noteSearch);
 
+        intentToUdtNote = new Intent(getContext(), UpdateNoteActivity.class);
 
         noteList = new ArrayList<>();
 

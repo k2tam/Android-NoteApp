@@ -1,67 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat
-    android:layout_gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_gravity="center_vertical"
+    android:padding="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="5dp">
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_lock"/>
+            android:src="@drawable/ic_password" />
 
         <TextView
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:padding="5dp"
-            android:text="This note has been locked \nEnter password to unlock" />
+            android:text="Set password for note"/>
     </LinearLayout>
 
 
     <EditText
-        android:id="@+id/edtLockNotePass"
+        android:id="@+id/edtUdtNotePass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Note password"
         android:inputType="textPassword"
-        android:textSize="15sp"/>
+        android:hint="Note password"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/edtUdtNoteConf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="Confirm note password"
+        android:layout_marginBottom="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:gravity="center_vertical">
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnLockNotePositive"
+            android:id="@+id/edtNotePassPositive"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="OK"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="Set"/>
 
         <View
-            android:layout_width="30dp"
-            android:layout_height="0dp" />
+            android:layout_width="10dp"
+            android:layout_height="0dp"/>
 
         <Button
-            android:id="@+id/btnLockNoteNegative"
+            android:id="@+id/edtUdtNotePassNegative"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Cancel"/>
-
     </LinearLayout>
-
-
-
 </androidx.appcompat.widget.LinearLayoutCompat>

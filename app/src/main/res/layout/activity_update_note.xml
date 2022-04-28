@@ -25,6 +25,12 @@
             android:layout_weight="1"/>
 
         <ImageButton
+            android:id="@+id/updateNoteLock"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"/>
+
+        <ImageButton
             android:id="@+id/updateNotePin"
             android:layout_width="30dp"
             android:layout_height="30dp"

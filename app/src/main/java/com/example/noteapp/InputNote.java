@@ -2,16 +2,24 @@ package com.example.noteapp;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static com.example.noteapp.R.drawable.ic_unlock;
+
 import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -19,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,6 +41,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class InputNote extends AppCompatActivity {
@@ -40,8 +50,8 @@ public class InputNote extends AppCompatActivity {
     private String userID;
     private FirebaseFirestore fStore;
     private static int mPriority = 0;
-    private static boolean mLock = false;
-    private String mPassword = "";
+    private static boolean mLock;
+    private String mPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +76,7 @@ public class InputNote extends AppCompatActivity {
                     String noteID = createNoteID();
                     pushNote(noteID, mPriority, title,content, mPassword,mLock);
                     mPriority = 0;
+                    finish();
                 }
             }
         });
@@ -87,12 +98,102 @@ public class InputNote extends AppCompatActivity {
 
     private void lockNote() {
         if(mLock == false){
-            mInputLockNote.setBackgroundResource(R.drawable.ic_lock);
-            mLock = true;
-        }else{
-            mInputLockNote.setBackgroundResource(R.drawable.ic_unlock);
-            mLock = false;
+            mInputLockNote.setBackgroundResource(R.drawable.ic_password);
+            if(mTitle.getText().toString().isEmpty() && mContent.getText().toString().isEmpty()){
+                Toast.makeText(this,"Cannot set password for empty note",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            DialogSetNotePass();
+        }else if(mLock == true){
+            unlockNoteDialog();
         }
+    }
+
+    private void unlockNoteDialog() {
+        AlertDialog.Builder unlockNoteDialog = new AlertDialog.Builder(this);
+        final AlertDialog show = unlockNoteDialog.show();
+        unlockNoteDialog.setCancelable(true);
+        unlockNoteDialog.setIcon(ic_unlock);
+        unlockNoteDialog.setTitle("Unlock note");
+        unlockNoteDialog.setMessage("Are you sure want to unlock this note ?");
+
+        unlockNoteDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mLock = false;
+                mPassword = "";
+                Toast.makeText(getApplicationContext(), "Unlocked note", Toast.LENGTH_SHORT).show();
+                mInputLockNote.setBackgroundResource(R.drawable.ic_password);
+                show.dismiss();
+
+            }
+        });
+
+        unlockNoteDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                show.dismiss();
+            }
+        });
+
+        unlockNoteDialog.show();
+    }
+
+    private void DialogSetNotePass() {
+        Dialog dialogSetNotePass = new Dialog(this);
+        dialogSetNotePass.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogSetNotePass.setContentView(R.layout.dialog_note_set_pass);
+        dialogSetNotePass.setCanceledOnTouchOutside(true);
+        dialogSetNotePass.show();
+
+        Window window = dialogSetNotePass.getWindow();
+        if(window == null){
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        EditText edtNotePass = dialogSetNotePass.findViewById(R.id.edtUdtNotePass);
+        EditText edtNotePassConf = dialogSetNotePass.findViewById(R.id.edtUdtNoteConf);
+        Button btnCancel = dialogSetNotePass.findViewById(R.id.edtUdtNotePassNegative);
+        Button btnOK = dialogSetNotePass.findViewById(R.id.edtNotePassPositive);
+
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String notePass = edtNotePass.getText().toString().trim();
+                String notePassConf = edtNotePassConf.getText().toString().trim();
+
+                if(notePass.isEmpty()){
+                    edtNotePass.setError("Please enter note password");
+                    return;
+                }
+
+                if(notePassConf.isEmpty()){
+                    edtNotePassConf.setError("Please enter note password verification");
+                    return;
+                }
+
+                if(!notePassConf.equals(notePass)){
+                    edtNotePassConf.setError("Note password verification and password are not match");
+                    return;
+                }
+
+                mLock = true;
+                mPassword = notePass;
+
+                dialogSetNotePass.dismiss();
+                mInputLockNote.setBackgroundResource(R.drawable.ic_unlock);
+                Toast.makeText(getApplicationContext(),"Successfully set password for note",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogSetNotePass.dismiss();
+            }
+        });
     }
 
     private void pushNote(String noteID, int priority, String title, String content, String password,boolean lock) {
@@ -100,13 +201,7 @@ public class InputNote extends AppCompatActivity {
 
         DocumentReference documentReference = fStore.collection("users").document(userID).collection("notes").document(noteID);
         Map<String, Object> noteAdd = note.toMap();
-        documentReference.set(noteAdd).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-
-                finish();
-            }
-        });
+        documentReference.set(noteAdd);
     }
 
     private void notePin() {
@@ -117,7 +212,6 @@ public class InputNote extends AppCompatActivity {
             mPinNote.setBackgroundResource(R.drawable.ic_pin);
             mPriority = 0;
         }
-
     }
 
     private void initUI() {
@@ -128,6 +222,9 @@ public class InputNote extends AppCompatActivity {
         mInputLockNote = findViewById(R.id.addNote_lock);
         fStore = FirebaseFirestore.getInstance();
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mLock = false;
+        mPassword = "";
+
     }
 
     private String createNoteID(){

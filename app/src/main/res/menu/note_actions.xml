@@ -3,11 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/act_note_delete"
-        android:icon="@drawable/ic_trash"
+        android:icon="@drawable/ic_time_delete"
+        android:iconTint="@color/icon_color"
         android:title="Delete"/>
+
+    <item
+        android:id="@+id/act_note_lock"
+        android:icon="@drawable/ic_password"
+        android:iconTint="@color/icon_color"
+        android:title="Set password"/>
 
     <item
         android:id="@+id/act_note_share"
         android:icon="@drawable/ic_share"
+        android:iconTint="@color/icon_color"
         android:title="Share"/>
 </menu>

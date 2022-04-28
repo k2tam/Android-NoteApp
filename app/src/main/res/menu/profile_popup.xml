@@ -3,15 +3,21 @@
 
     <item
         android:id="@+id/profile_verifyEmail"
-        android:title="Verify emaill"/>
+        android:title="Verify emaill"
+        android:icon="@drawable/ic_verify"
+        android:iconTint="@color/icon_color"/>
+
 
     <item
         android:id="@+id/profile_changePass"
+        android:icon="@drawable/ic_password"
+        android:iconTint="@color/icon_color"
         android:title="Change password" />
 
     <item
         android:id="@+id/profile_signOut"
-        android:icon="@drawable/sign_out"
+        android:icon="@drawable/ic_logout"
+        android:iconTint="@color/icon_color"
         android:title="Sign out" />
 
 </menu>

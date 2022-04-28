@@ -41,12 +41,25 @@
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/menu/menu_nav.xml" value="0.18697916666666667" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/menu/note_options.xml" value="0.18697916666666667" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver20.4/app/src/main/res/menu/profile_popup.xml" value="0.3625" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2555" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_grid.xml" value="0.2555" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2555" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_lock.xml" value="0.2555" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_password.xml" value="0.2555" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_pin.xml" value="0.2555" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_pined.xml" value="0.2555" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_setting.xml" value="0.2555" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/drawable/ic_share.xml" value="0.2555" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_input_note.xml" value="0.49382716049382713" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_login.xml" value="0.2463768115942029" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/activity_update_note.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/dialog_lock_note.xml" value="0.2463768115942029" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/dialog_note_set_pass.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/fragment_note.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/layout/note_grid.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/menu/menu_nav.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/menu/note_actions.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/Asus/Desktop/OneNote_ver24.4/app/src/main/res/menu/profile_popup.xml" value="0.25" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.1/app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.1/app/src/main/res/layout/fragment_note.xml" value="0.3625" />
         <entry key="..\:/Users/Asus/Desktop/OneNote_ver9.4.1/app/src/main/res/layout/fragment_note_frag_list.xml" value="0.3625" />

@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showMenu(){
         PopupMenu popupMenu = new PopupMenu(getApplicationContext(), profileIcon);
+        popupMenu.setForceShowIcon(true);
         popupMenu.getMenuInflater().inflate(R.menu.profile_popup, popupMenu.getMenu());
         verifyEmailItem = popupMenu.getMenu().findItem(R.id.profile_verifyEmail);
         if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){

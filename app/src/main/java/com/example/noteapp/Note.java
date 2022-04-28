@@ -20,7 +20,7 @@ public class Note implements Serializable{
         this.title = title;
         this.content = content;
         this.password = password;
-        this.lock = false;
+        this.lock = lock;
     }
 
     public int getPriority() {
