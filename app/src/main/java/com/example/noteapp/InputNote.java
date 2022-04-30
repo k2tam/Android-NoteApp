@@ -35,8 +35,10 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -58,6 +60,7 @@ import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -75,7 +78,6 @@ public class InputNote extends AppCompatActivity {
     private ImageView mImageView;
     static FirebaseStorage fStorage = FirebaseStorage.getInstance();
     static StorageReference fStorageRef = fStorage.getReference();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +122,7 @@ public class InputNote extends AppCompatActivity {
                     finish();
                 }else{
                     String noteID = createNoteID();
-                    pushNote(noteID, mPriority, title,content, mPassword,mLock);
+                    pushNote(noteID, mPriority, title,content, mPassword,mLock,null);
                     mPriority = 0;
                     finish();
                 }
@@ -160,7 +162,7 @@ public class InputNote extends AppCompatActivity {
         TedPermission.create()
                 .setPermissionListener(permissionlistener)
                 .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET)
                 .check();
 
     }
@@ -285,15 +287,15 @@ public class InputNote extends AppCompatActivity {
         });
     }
 
-    private void pushNote(String noteID, int priority, String title, String content, String password,boolean lock) {
-        Note note = new Note(noteID, priority, title,content, password,lock);
+    private void pushNote(String noteID, int priority, String title, String content, String password,boolean lock, String imgUri) {
+        Note note = new Note(noteID, priority, title,content, password,lock, null);
 
         DocumentReference documentReference = fStore.collection("users").document(userID).collection("notes").document(noteID);
         Map<String, Object> noteAdd = note.toMap();
         documentReference.set(noteAdd);
 
         if(mImageUri != null){
-            uploadToFStorage(noteID);
+            uploadToFStorage(noteID, documentReference);
         }
     }
 
@@ -303,10 +305,19 @@ public class InputNote extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void uploadToFStorage(String noteID) {
+    private void uploadToFStorage(String noteID, DocumentReference documentReference) {
 
         StorageReference imageRef = fStorageRef.child("images").child(userID).child(noteID).child(System.currentTimeMillis() + "." + getImgExtension(mImageUri));
-        imageRef.putFile(mImageUri);
+        imageRef.putFile(mImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                Map<String, Object> noteUdtMap = new HashMap<>();
+                noteUdtMap.put("imgUri",mImageUri.toString());
+                documentReference.update(noteUdtMap);
+            }
+        });
+
+
     }
 
     private void notePin() {

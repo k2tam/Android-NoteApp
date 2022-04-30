@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_drawer_open">open</string>
+    <string name="nav_drawer_close">close</string>
+    <string name="notes">Ghi chú</string>
+    <string name="trash">Thùng rác</string>
+    <string name="settings">Cài đặt</string>
+    <string name="feedBack">"Phản hồi "</string>
+    <string name="help">Trợ giúp</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="select_lang">Chọn ngôn ngữ</string>
+    <string name="display_options">Hiển thị</string>
+    <string name="dark_mode">Chế độ tối</string>
+
+</resources>

@@ -2,8 +2,10 @@ package com.example.noteapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +18,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.noteapp.fragment.NoteFragment;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.awt.font.TextAttribute;
 import java.util.List;
@@ -33,10 +39,11 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
     }
 
     class NoteHolder extends RecyclerView.ViewHolder {
-        ImageView icLock;
+        ImageView icLock, previewImg;
         ImageView icPin;
         TextView title, content;
         CardView noteLayout;
+        Uri uri;
 
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -44,6 +51,7 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
             content = itemView.findViewById(R.id.note_content);
             icPin = itemView.findViewById(R.id.note_ic_pin);
             icLock = itemView.findViewById(R.id.note_ic_lock);
+            previewImg = itemView.findViewById(R.id.previewImg);
 
             noteLayout = itemView.findViewById(R.id.noteLayout);
 
@@ -63,6 +71,13 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
     protected void onBindViewHolder(@NonNull NoteHolder holder, int position, @NonNull Note model) {
         holder.title.setText(model.getTitle());
         holder.content.setText(model.getContent());
+
+        if(model.getImgUri() != null){
+            Uri uri = Uri.parse(model.getImgUri());
+            Picasso.get().load(uri).into(holder.previewImg);
+            Log.d("hello","hi");
+        }
+
 
         if(model.getPriority() == 1){
             holder.icPin.setVisibility(View.VISIBLE);

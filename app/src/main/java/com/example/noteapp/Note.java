@@ -1,8 +1,12 @@
 package com.example.noteapp;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public class Note implements Serializable{
     private String noteID;
@@ -11,16 +15,26 @@ public class Note implements Serializable{
     private String content;
     private String password;
     private Boolean lock;
+    private String imgUri;
 
     public Note(){}
 
-    public Note(String noteID, int priority, String title, String content,String password, Boolean lock) {
+    public Note(String noteID, int priority, String title, String content,String password, Boolean lock, String imgUri) {
         this.noteID = noteID;
         this.priority = priority;
         this.title = title;
         this.content = content;
         this.password = password;
         this.lock = lock;
+        this.imgUri = imgUri;
+    }
+
+    public String getImgUri() {
+        return imgUri;
+    }
+
+    public void setImgUri(String imgUri) {
+        this.imgUri = imgUri;
     }
 
     public int getPriority() {
@@ -79,6 +93,7 @@ public class Note implements Serializable{
         result.put("content", content);
         result.put("password", password);
         result.put("lock", lock);
+        result.put("imgUri",imgUri);
         return result;
     }
 

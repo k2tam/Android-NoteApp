@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,10 +36,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.noteapp.fragment.FeedbackFragment;
-import com.example.noteapp.fragment.HelpFragment;
 import com.example.noteapp.fragment.NoteFragment;
-import com.example.noteapp.fragment.SettingFragment;
 import com.example.noteapp.fragment.TrashFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -106,10 +105,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initListener(){
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.nav_drawer_open, R.string.nav_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
 
         replaceFragment(new NoteFragment());
 
@@ -137,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+
+
 
     private void showMenu(){
         PopupMenu popupMenu = new PopupMenu(getApplicationContext(), profileIcon);
@@ -187,22 +188,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.nav_settings:
-                if(mCurrentFragment != FRAGMENT_SETTING){
-                    replaceFragment(new SettingFragment());
-                    mCurrentFragment = FRAGMENT_SETTING;
-                }
+                startActivity(new Intent(MainActivity.this,Settings.class));
                 break;
             case R.id.nav_feedback:
-                if(mCurrentFragment != FRAGMENT_FEEDBACK){
-                    replaceFragment(new FeedbackFragment());
-                    mCurrentFragment = FRAGMENT_FEEDBACK;
-                }
                 break;
             case R.id.nav_help:
-                if(mCurrentFragment != FRAGMENT_HELP){
-                    replaceFragment(new HelpFragment());
-                    mCurrentFragment = FRAGMENT_HELP;
-                }
+
                 break;
         }
 
@@ -243,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        fragmentTransaction.commit();
 //    }
+
 
 }
 
