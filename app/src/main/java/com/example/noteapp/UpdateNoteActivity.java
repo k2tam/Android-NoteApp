@@ -259,9 +259,13 @@ public class UpdateNoteActivity extends AppCompatActivity   {
     private void DeleteNote() {
         Map<String, Object> noteUdtMap = new HashMap<>();
         noteUdtMap.put("deleted",true);
-        noteDocReference.update(noteUdtMap);
-        finish();
-
+        noteUdtMap.put("deleteF_date",getDeleteForeverDateTime());
+        noteDocReference.update(noteUdtMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                onBackPressed();
+            }
+        });
 
 //                addOnCompleteListener(new OnCompleteListener<Void>() {
 //            @Override
@@ -278,25 +282,15 @@ public class UpdateNoteActivity extends AppCompatActivity   {
 //
 //            }
 //        });
-
-
     }
 
     private String getDeleteForeverDateTime(){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        String current_date = dtf.format(now);
-
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//        Calendar c = Calendar.getInstance();
-//        try {
-//            c.setTime(sdf.parse(current_date));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        c.add(Calendar.MINUTE, 1);
-//        Date date = new Date();
-        return current_date;
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.SECOND, 10);
+        dt = c.getTime();
+        return dt.toString();
     }
 
 

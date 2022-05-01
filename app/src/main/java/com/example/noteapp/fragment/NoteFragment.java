@@ -196,7 +196,7 @@ public class NoteFragment extends Fragment {
                 .build();
 
         noteAdapter = new NoteAdapter(filteredNotes);
-        recyclerView.setHasFixedSize(false);
+//        recyclerView.setHasFixedSize(false);
         noteAdapter.startListening();
         recyclerView.setAdapter(noteAdapter);
 

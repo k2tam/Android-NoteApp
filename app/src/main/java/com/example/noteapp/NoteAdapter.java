@@ -32,7 +32,6 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
         ImageView icPin;
         TextView title, content;
         CardView noteLayout;
-        Uri uri;
 
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -40,7 +39,6 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
             content = itemView.findViewById(R.id.note_content);
             icPin = itemView.findViewById(R.id.note_ic_pin);
             icLock = itemView.findViewById(R.id.note_ic_lock);
-            previewImg = itemView.findViewById(R.id.previewImg);
 
             noteLayout = itemView.findViewById(R.id.noteLayout);
 

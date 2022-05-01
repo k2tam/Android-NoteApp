@@ -48,14 +48,14 @@
 
         <TextView
             android:id="@+id/txtBtnEmptyTrash"
-            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Empty Trash"
             android:textColor="@color/primary"
             android:textSize="15dp"
-            android:layout_gravity="center_vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Empty Trash"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
