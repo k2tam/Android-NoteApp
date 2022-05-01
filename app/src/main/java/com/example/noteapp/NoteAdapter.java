@@ -1,34 +1,23 @@
 package com.example.noteapp;
 
-import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.noteapp.fragment.NoteFragment;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.awt.font.TextAttribute;
-import java.util.List;
 
 public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.NoteHolder> {
     private OnItemClickListener listener;
@@ -78,13 +67,11 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
             Log.d("hello","hi");
         }
 
-
         if(model.getPriority() == 1){
             holder.icPin.setVisibility(View.VISIBLE);
         }else{
             holder.icPin.setVisibility(View.GONE);
         }
-
 
         if(model.getLock() == true){
             holder.content.setText("Preview content is hidden due to note is locked");

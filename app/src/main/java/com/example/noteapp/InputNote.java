@@ -122,7 +122,7 @@ public class InputNote extends AppCompatActivity {
                     finish();
                 }else{
                     String noteID = createNoteID();
-                    pushNote(noteID, mPriority, title,content, mPassword,mLock,null);
+                    pushNote(noteID, mPriority, title,content, mPassword,mLock,null, false);
                     mPriority = 0;
                     finish();
                 }
@@ -287,8 +287,8 @@ public class InputNote extends AppCompatActivity {
         });
     }
 
-    private void pushNote(String noteID, int priority, String title, String content, String password,boolean lock, String imgUri) {
-        Note note = new Note(noteID, priority, title,content, password,lock, null);
+    private void pushNote(String noteID, int priority, String title, String content, String password,boolean lock, String imgUri, Boolean deleted) {
+        Note note = new Note(noteID, priority, title,content, password,lock, null, deleted);
 
         DocumentReference documentReference = fStore.collection("users").document(userID).collection("notes").document(noteID);
         Map<String, Object> noteAdd = note.toMap();
@@ -297,6 +297,7 @@ public class InputNote extends AppCompatActivity {
         if(mImageUri != null){
             uploadToFStorage(noteID, documentReference);
         }
+
     }
 
     private String getImgExtension(Uri uri){
@@ -316,8 +317,6 @@ public class InputNote extends AppCompatActivity {
                 documentReference.update(noteUdtMap);
             }
         });
-
-
     }
 
     private void notePin() {
@@ -351,8 +350,8 @@ public class InputNote extends AppCompatActivity {
     }
 
     private String createNoteID(){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        return (dtf.format(now)).toString().replace('/','-').replaceAll("\\s","").trim();
+        DocumentReference docRef = fStore.collection("users").document(userID).collection("notes").document();
+
+        return docRef.getId();
     }
 }

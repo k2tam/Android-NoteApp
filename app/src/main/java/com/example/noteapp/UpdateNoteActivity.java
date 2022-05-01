@@ -33,9 +33,18 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firestore.v1.StructuredQuery;
 import com.google.firestore.v1.WriteResult;
+import com.google.type.DateTime;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -200,6 +209,7 @@ public class UpdateNoteActivity extends AppCompatActivity   {
         noteUdtMap.put("title",udtNoteTitle);
         noteUdtMap.put("content",udtNoteContent);
         noteUdtMap.put("priority",mPriority);
+
         noteDocReference.update(noteUdtMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -234,8 +244,7 @@ public class UpdateNoteActivity extends AppCompatActivity   {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.act_note_delete:
-                        noteDocReference.delete();
-                        onBackPressed();
+                        DeleteNote();
                         break;
                     case R.id.act_note_lock:
                         DialogSetNotePass();
@@ -245,6 +254,49 @@ public class UpdateNoteActivity extends AppCompatActivity   {
             }
         });
         actionNoteMenu.show();
+    }
+
+    private void DeleteNote() {
+        Map<String, Object> noteUdtMap = new HashMap<>();
+        noteUdtMap.put("deleted",true);
+        noteDocReference.update(noteUdtMap);
+        finish();
+
+
+//                addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                Map<String, Object> data = new HashMap<>();
+//                data.put("delete_forever",getDeleteForeverDateTime());
+//                noteDocReference.set(data, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        finish();
+//
+//                    }
+//                });
+//
+//            }
+//        });
+
+
+    }
+
+    private String getDeleteForeverDateTime(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String current_date = dtf.format(now);
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//        Calendar c = Calendar.getInstance();
+//        try {
+//            c.setTime(sdf.parse(current_date));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        c.add(Calendar.MINUTE, 1);
+//        Date date = new Date();
+        return current_date;
     }
 
 
