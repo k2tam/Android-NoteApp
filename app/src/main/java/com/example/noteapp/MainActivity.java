@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.example.noteapp.fragment.NoteFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -162,9 +163,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
             case R.id.nav_feedback:
+                Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_help:
-
+                Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
                 break;
         }
 

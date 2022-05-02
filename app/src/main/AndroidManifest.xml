@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoteApp">
         <activity
+            android:name=".TrashReaderActivity"
+            android:exported="false" />
+        <activity
             android:name=".TrashActivity"
             android:exported="false" />
         <activity

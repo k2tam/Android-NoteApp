@@ -1,11 +1,13 @@
 package com.example.noteapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,10 +55,35 @@ public class TrashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trash);
 
         initUI();
-        initListener();
         setLayoutManager();
         setUpTrashRecyclerView();
+        initListener();
 
+
+    }
+
+    private void showEmptyTrashAlert(){
+        AlertDialog.Builder emptyAlert = new AlertDialog.Builder(this);
+        final AlertDialog show = emptyAlert.show();
+        emptyAlert.setIcon(R.drawable.ic_warning);
+        emptyAlert.setTitle("WARNING !");
+        emptyAlert.setMessage("Are you sure want to delete all the note in trash forever ?");
+        emptyAlert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                emptyTrash();
+            }
+        });
+
+        emptyAlert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                show.dismiss();
+            }
+        });
+
+        emptyAlert.setCancelable(true);
+        emptyAlert.show();
     }
 
     private void setLayoutManager() {
@@ -80,7 +107,7 @@ public class TrashActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        clearNoteExpired();
+//        clearNoteExpired();
         trashAdapter.startListening();
         trashAdapter.notifyDataSetChanged();
     }
@@ -132,27 +159,31 @@ public class TrashActivity extends AppCompatActivity {
         collectionReference = fStore.collection("users").document(FirebaseAuth.getInstance().getUid()).collection("notes");
     }
 
+    private void emptyTrash(){
+        Query query = collectionReference.whereEqualTo("deleted",true);
+
+        notes_del = new FirestoreRecyclerOptions.Builder<Note>()
+                .setQuery(query, Note.class)
+                .build();
+
+        collectionReference.whereEqualTo("deleted",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String documentId = document.getId();
+                        collectionReference.document(documentId).delete();
+                    }
+                }
+            }
+        });
+    }
+
     private void initListener() {
         txtBtnEmptyTrash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Query query = collectionReference.whereEqualTo("deleted",true);
-
-                notes_del = new FirestoreRecyclerOptions.Builder<Note>()
-                        .setQuery(query, Note.class)
-                        .build();
-
-                collectionReference.whereEqualTo("deleted",true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String documentId = document.getId();
-                                collectionReference.document(documentId).delete();
-                            }
-                        }
-                    }
-                });
+                showEmptyTrashAlert();
             }
         });
 
@@ -160,6 +191,18 @@ public class TrashActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(TrashActivity.this, MainActivity.class));
+            }
+        });
+
+
+        trashAdapter.setOnTrashClickListener(new TrashAdapter.OnTrashClickListener() {
+            @Override
+            public void onTrashClick(DocumentSnapshot documentSnapshot, int position) {
+                Intent intentToTrashReader = new Intent(getApplicationContext(),TrashReaderActivity.class);
+//                Note note = documentSnapshot.toObject(Note.class);
+                String id = documentSnapshot.getId();
+                intentToTrashReader.putExtra("noteID",id);
+                startActivity(intentToTrashReader);
             }
         });
     }

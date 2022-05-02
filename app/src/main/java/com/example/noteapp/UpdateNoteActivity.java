@@ -258,6 +258,7 @@ public class UpdateNoteActivity extends AppCompatActivity   {
 
     private void DeleteNote() {
         Map<String, Object> noteUdtMap = new HashMap<>();
+        noteUdtMap.put("priority",0);
         noteUdtMap.put("deleted",true);
         noteUdtMap.put("deleteF_date",getDeleteForeverDateTime());
         noteDocReference.update(noteUdtMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -288,7 +289,7 @@ public class UpdateNoteActivity extends AppCompatActivity   {
         Date dt = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(dt);
-        c.add(Calendar.SECOND, 10);
+        c.add(Calendar.MINUTE, 15);
         dt = c.getTime();
         return dt.toString();
     }

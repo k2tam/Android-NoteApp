@@ -18,7 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
 public class TrashAdapter extends FirestoreRecyclerAdapter<Note, TrashAdapter.TrashHolder> {
-    private OnItemClickListener listener;
+    private OnTrashClickListener listener;
 
 
     public TrashAdapter(@NonNull FirestoreRecyclerOptions<Note> options) {
@@ -40,7 +40,7 @@ public class TrashAdapter extends FirestoreRecyclerAdapter<Note, TrashAdapter.Tr
                     public void onClick(View v) {
                         int position = getAbsoluteAdapterPosition();
                         if(position != RecyclerView.NO_POSITION && listener != null){
-                            listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                            listener.onTrashClick(getSnapshots().getSnapshot(position), position);
                         }
                     }
                 });
@@ -58,14 +58,14 @@ public class TrashAdapter extends FirestoreRecyclerAdapter<Note, TrashAdapter.Tr
         public com.example.noteapp.TrashAdapter.TrashHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_grid, parent, false);
 
-            return new TrashAdapter.TrashHolder(view);
+            return new TrashHolder(view);
         }
 
-        public interface  OnItemClickListener{
-            void onItemClick(DocumentSnapshot documentSnapshot, int position);
+        public interface  OnTrashClickListener{
+            void onTrashClick(DocumentSnapshot documentSnapshot, int position);
         }
 
-        public void setOnItemClickListener(OnItemClickListener listener){
+        public void setOnTrashClickListener(OnTrashClickListener listener){
             this.listener = listener;
         }
 }
