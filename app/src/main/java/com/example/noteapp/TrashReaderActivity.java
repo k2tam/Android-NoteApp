@@ -1,12 +1,15 @@
 package com.example.noteapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,16 +21,18 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TrashReaderActivity extends AppCompatActivity {
     TextView txtNoteTrashTitle, txtNoteTrashContent;
-    ImageButton btnNoteTrashBack, btnNoteTrashRestore;
+    ImageButton btnNoteTrashBack, btnNoteTrashRestore, btnNoteTrashDelF;
     String noteID;
     DocumentReference documentReference;
     FirebaseFirestore fStore;
+    ImageView trashReaderImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,11 @@ public class TrashReaderActivity extends AppCompatActivity {
 
                 txtNoteTrashTitle.setText(note.getTitle());
                 txtNoteTrashContent.setText(note.getContent());
+
+                String uri = note.getImgUri();
+                if(uri != null){
+                    Picasso.get().load(uri).into(trashReaderImg);
+                }
             }
         });
     }
@@ -62,10 +72,19 @@ public class TrashReaderActivity extends AppCompatActivity {
         btnNoteTrashBack = findViewById(R.id.btnBackNoteTrash);
         btnNoteTrashRestore = findViewById(R.id.btnNoteTrashRestore);
         fStore = FirebaseFirestore.getInstance();
+        trashReaderImg = findViewById(R.id.trashReaderImg);
+        btnNoteTrashDelF = findViewById(R.id.btnNoteTrashDelF);
 
     }
 
     private void initListener() {
+        btnNoteTrashDelF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogdDelNoteForever();
+            }
+        });
+
         btnNoteTrashRestore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,5 +126,24 @@ public class TrashReaderActivity extends AppCompatActivity {
 
     }
 
-
+    private void dialogdDelNoteForever() {
+        AlertDialog.Builder diaNoteDelF = new AlertDialog.Builder(this);
+        AlertDialog show = diaNoteDelF.show();
+        diaNoteDelF.setIcon(R.drawable.ic_del_f);
+        diaNoteDelF.setTitle("Are you sure want to delete this note forever ?");
+        diaNoteDelF.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                documentReference.delete();
+                finish();
+            }
+        });
+        diaNoteDelF.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                show.dismiss();
+            }
+        });
+        diaNoteDelF.show();
+    }
 }

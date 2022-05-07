@@ -25,6 +25,14 @@
             android:layout_weight="1"/>
 
         <ImageButton
+            android:id="@+id/updateNoteRemind"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_remind"
+            android:backgroundTint="@color/icon_color"/>
+
+
+        <ImageButton
             android:id="@+id/updateNoteLock"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -43,6 +51,11 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_weight="16">
+
+        <ImageView
+            android:id="@+id/udtNotePrevImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <EditText
             android:id="@+id/updateEdtTitle"

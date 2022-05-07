@@ -1,5 +1,6 @@
 package com.example.noteapp;
 
+import android.media.Image;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,12 +29,15 @@ public class TrashAdapter extends FirestoreRecyclerAdapter<Note, TrashAdapter.Tr
     class TrashHolder extends RecyclerView.ViewHolder {
             TextView title, content;
             CardView noteLayout;
+            ImageView trashPrevImg;
 
             public TrashHolder(@NonNull View itemView) {
                 super(itemView);
                 title = itemView.findViewById(R.id.note_title);
                 content = itemView.findViewById(R.id.note_content);
                 noteLayout = itemView.findViewById(R.id.noteLayout);
+                trashPrevImg = itemView.findViewById(R.id.previewImg);
+
 
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -51,6 +55,12 @@ public class TrashAdapter extends FirestoreRecyclerAdapter<Note, TrashAdapter.Tr
         protected void onBindViewHolder(@NonNull com.example.noteapp.TrashAdapter.TrashHolder holder, int position, @NonNull Note model) {
             holder.title.setText(model.getTitle());
             holder.content.setText(model.getContent());
+
+            String url =  model.getImgUri();
+            if(url != null){
+                Picasso.get().load(url).into(holder.trashPrevImg);
+            }
+
         }
 
         @NonNull

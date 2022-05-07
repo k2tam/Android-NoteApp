@@ -31,13 +31,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public int display  = DISPLAY_GRID;
 
     private static final int FRAGMENT_NOTE = 0;
-    private static final int FRAGMENT_TRASH = 1;
-    private static final int FRAGMENT_SETTING = 2;
-    private static final int FRAGMENT_FEEDBACK = 3;
-    private static final int FRAGMENT_HELP = 4;
 
     private int mCurrentFragment = FRAGMENT_NOTE;
-
 
     private CircleImageView profileIcon;
     FirebaseAuth fAuth;
@@ -105,20 +100,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 if (display == DISPLAY_GRID) {
                     mButtonDisplay.setBackgroundResource(R.drawable.ic_grid);
-                } else if (display == DISPLAY_LIST) {
+                } else {
                     mButtonDisplay.setBackgroundResource(R.drawable.ic_list);
                 }
             }
         });
     }
 
-
-
     private void showMenu(){
         PopupMenu popupMenu = new PopupMenu(getApplicationContext(), profileIcon);
         popupMenu.setForceShowIcon(true);
         popupMenu.getMenuInflater().inflate(R.menu.profile_popup, popupMenu.getMenu());
         verifyEmailItem = popupMenu.getMenu().findItem(R.id.profile_verifyEmail);
+
         if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
             verifyEmailItem.setVisible(false);
         }

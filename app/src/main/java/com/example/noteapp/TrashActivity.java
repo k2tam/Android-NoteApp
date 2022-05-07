@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -107,7 +108,7 @@ public class TrashActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-//        clearNoteExpired();
+        clearNoteExpired();
         trashAdapter.startListening();
         trashAdapter.notifyDataSetChanged();
     }

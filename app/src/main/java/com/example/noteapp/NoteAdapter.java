@@ -1,5 +1,8 @@
 package com.example.noteapp;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +16,13 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
+
+import java.io.InputStream;
 
 
 public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.NoteHolder> {
@@ -32,6 +38,7 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
         ImageView icPin;
         TextView title, content;
         CardView noteLayout;
+        Context context;
 
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -39,6 +46,8 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
             content = itemView.findViewById(R.id.note_content);
             icPin = itemView.findViewById(R.id.note_ic_pin);
             icLock = itemView.findViewById(R.id.note_ic_lock);
+            context = itemView.getContext();
+            previewImg = itemView.findViewById(R.id.previewImg);
 
             noteLayout = itemView.findViewById(R.id.noteLayout);
 
@@ -59,27 +68,10 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
         holder.title.setText(model.getTitle());
         holder.content.setText(model.getContent());
 
-        if(model.getImgUri() != null){
-            Uri uri = Uri.parse(model.getImgUri());
-            Picasso.get().load(uri).into(holder.previewImg);
-            Log.d("hello","hi");
+        if(model.getImgUri() !=  null){
+            Picasso.get().load(model.getImgUri()).into(holder.previewImg);
         }
-
-        if(model.getPriority() == 1){
-            holder.icPin.setVisibility(View.VISIBLE);
-        }else{
-            holder.icPin.setVisibility(View.GONE);
-        }
-
-        if(model.getLock() == true){
-            holder.content.setText("Preview content is hidden due to note is locked");
-            holder.icLock.setVisibility(View.VISIBLE);
-        }else{
-            holder.icLock.setVisibility(View.GONE);
-        }
-
     }
-
     @NonNull
     @Override
     public NoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
