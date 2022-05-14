@@ -21,6 +21,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -33,6 +35,9 @@ public class TrashReaderActivity extends AppCompatActivity {
     DocumentReference documentReference;
     FirebaseFirestore fStore;
     ImageView trashReaderImg;
+    private static FirebaseStorage fStorage = FirebaseStorage.getInstance();
+    String imgUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,11 +127,21 @@ public class TrashReaderActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-
     }
 
+
     private void dialogdDelNoteForever() {
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document != null){
+                        imgUri = document.getString("imgUri");
+                    }
+                }
+            }
+        });
         AlertDialog.Builder diaNoteDelF = new AlertDialog.Builder(this);
         AlertDialog show = diaNoteDelF.show();
         diaNoteDelF.setIcon(R.drawable.ic_del_f);
@@ -135,6 +150,11 @@ public class TrashReaderActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 documentReference.delete();
+
+                if(imgUri != null){
+                    StorageReference imageRef = fStorage.getReferenceFromUrl(imgUri);
+                    imageRef.delete();
+                }
                 finish();
             }
         });

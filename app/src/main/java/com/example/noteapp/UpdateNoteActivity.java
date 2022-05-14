@@ -39,6 +39,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.firestore.v1.StructuredQuery;
 import com.google.firestore.v1.WriteResult;
 import com.google.type.DateTime;
@@ -64,6 +66,9 @@ public class UpdateNoteActivity extends AppCompatActivity   {
     private boolean mLock;
     private String mPassword;
     private ImageView udtPrevImg;
+    static FirebaseStorage fStorage = FirebaseStorage.getInstance();
+    static StorageReference fStorageRef = fStorage.getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

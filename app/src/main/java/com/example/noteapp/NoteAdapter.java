@@ -1,10 +1,7 @@
 package com.example.noteapp;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
-
-import java.io.InputStream;
-
 
 public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.NoteHolder> {
     private OnItemClickListener listener;
@@ -69,7 +61,10 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
         holder.content.setText(model.getContent());
 
         if(model.getImgUri() !=  null){
+            holder.previewImg.setVisibility(View.VISIBLE);
             Picasso.get().load(model.getImgUri()).into(holder.previewImg);
+        }else{
+            holder.previewImg.setVisibility(View.GONE);
         }
     }
     @NonNull

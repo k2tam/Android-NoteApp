@@ -15,9 +15,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -28,6 +31,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +52,9 @@ public class TrashActivity extends AppCompatActivity {
     private FirestoreRecyclerOptions<Note> notes_del;
     private TextView txtBtnEmptyTrash;
     private ImageButton btnTrashBack;
+    static FirebaseStorage fStorage = FirebaseStorage.getInstance();
+    static StorageReference fStorageRef = fStorage.getReference();
+    static final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
     @Override
@@ -73,6 +80,7 @@ public class TrashActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 emptyTrash();
+                show.dismiss();
             }
         });
 
@@ -126,6 +134,7 @@ public class TrashActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String documentId = document.getId();
+                        String imgUri = document.getString("imgUri");
                         String deleteF_date = document.get("deleteF_date").toString();
                         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
                         try {
@@ -137,6 +146,10 @@ public class TrashActivity extends AppCompatActivity {
                         Calendar cal_cur = Calendar.getInstance();
 
                         if(cal_del.compareTo(cal_cur) <= 0){
+                            if(imgUri != null){
+                                StorageReference imageRef = fStorage.getReferenceFromUrl(imgUri);
+                                imageRef.delete();
+                            }
                             collectionReference.document(documentId).delete();
                         }
                     }
@@ -173,6 +186,13 @@ public class TrashActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String documentId = document.getId();
+                        String imgUri = document.getString("imgUri");
+
+                        if(imgUri != null){
+                            StorageReference imageRef = fStorage.getReferenceFromUrl(imgUri);
+                            imageRef.delete();
+                        }
+
                         collectionReference.document(documentId).delete();
                     }
                 }
