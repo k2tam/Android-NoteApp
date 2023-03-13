@@ -1,6 +1,6 @@
-## Android Note App
+# Android Note App
 
-# UI
+## UI
 
 ![alt text](https://github.com/k2tam/Android-NoteApp/blob/master/images_demo/1.png?raw=true)
 ![alt text](https://github.com/k2tam/Android-NoteApp/blob/master/images_demo/2.png?raw=true)
